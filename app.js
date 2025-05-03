@@ -16,14 +16,14 @@ const PORT = process.env.PORT || 3000;
 const isProduction = process.env.NODE_ENV === 'production';
 
 // Connect to MongoDB
-connectDB().then(() => {
-  console.log('Database connected successfully');
-  
-  // Initialize cron jobs after DB connection is established
-  if (isProduction) {
-    initCronJobs();
-  }
+connectDB().catch(err => {
+  console.error('Database connection error:', err);
 });
+
+// Initialize cron jobs after DB connection is established
+if (isProduction && process.env.IS_SERVERLESS !== 'true') {
+  initCronJobs();
+}
 
 // Configure view engine
 app.engine('hbs', exphbs.engine({
