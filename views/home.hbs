@@ -1,0 +1,65 @@
+<div class="bg-white rounded-lg shadow-md p-6 mb-8">
+    <h2 class="text-2xl font-bold mb-6 text-gray-800">Mobile Brands</h2>
+    
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+        {{#each brands}}
+        <a href="/brand/{{id}}" class="brand-card bg-white hover:bg-gray-50 border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition duration-300 flex flex-col items-center">
+            <div class="w-24 h-24 mb-3 flex items-center justify-center">
+                {{#if logo}}
+                    <div class="relative w-20 h-20">
+                        <div class="skeleton-loader absolute inset-0 rounded-full"></div>
+                        <img 
+                            src="{{logo}}" 
+                            alt="{{name}} logo" 
+                            class="absolute top-0 left-0 w-full h-full object-contain p-2"
+                            onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'w-20 h-20 rounded-full bg-blue-100 flex items-center justify-center\'><span class=\'text-3xl font-bold text-blue-600\'>{{name.[0]}}</span></div>'"
+                            onload="this.previousElementSibling.classList.add('hidden')"
+                        >
+                    </div>
+                {{else}}
+                    <div class="w-20 h-20 rounded-full bg-blue-100 flex items-center justify-center">
+                        <span class="text-3xl font-bold text-blue-600">{{name.[0]}}</span>
+                    </div>
+                {{/if}}
+            </div>
+            <div class="text-center">
+                <div class="font-medium text-gray-700">{{name}}</div>
+            </div>
+        </a>
+        {{/each}}
+    </div>
+</div>
+
+<style>
+    /* Skeleton loader animation */
+    .skeleton-loader {
+        background: linear-gradient(
+            90deg,
+            rgba(190, 190, 190, 0.2) 25%,
+            rgba(129, 129, 129, 0.24) 37%,
+            rgba(190, 190, 190, 0.2) 63%
+        );
+        background-size: 400% 100%;
+        animation: skeleton-loading 1.4s ease infinite;
+    }
+
+    @keyframes skeleton-loading {
+        0% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0 50%;
+        }
+    }
+</style>
+
+<script>
+    // Show loading spinner when clicking brand cards
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.brand-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                showLoading();
+            });
+        });
+    });
+</script>

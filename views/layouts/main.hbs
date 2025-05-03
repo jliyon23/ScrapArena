@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{#if title}}{{title}} - {{/if}}GSMArena Scraper (Educational Use)</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/brands.min.css">
+    <style>
+        body {
+            background-color: #f3f4f6;
+        }
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+    {{> loading}}
+    
+    <header class="bg-gradient-to-b from-gray-900 to-gray-800 text-white shadow-md py-5">
+        <div class="container mx-auto px-4 py-6">
+            <h1 class="text-3xl font-bold text-center"><a href="/" class="hover:text-blue-200 ">ScrapeArena</a></h1>
+
+        </div>
+    </header>
+    
+    <main class="container mx-auto px-4 py-8 flex-grow">
+        {{{body}}}
+    </main>
+    
+    <footer class="bg-gradient-to-b from-gray-900 to-gray-800 text-white py-8 mt-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col items-center space-y-4">
+                <p class="text-sm text-center">Data is scraped from GSMArena.com</p>
+                
+                <div class="flex space-x-6">
+                    <!-- Portfolio -->
+                    <a href="https://josephliyon.tech" target="_blank" rel="noopener noreferrer" 
+                       class="text-gray-300 hover:text-white transition-colors duration-200">
+                        <i class="fas fa-globe text-2xl"></i>
+                    </a>
+                    
+                    <!-- GitHub -->
+                    <a href="https://github.com/jliyon23" target="_blank" rel="noopener noreferrer" 
+                       class="text-gray-300 hover:text-white transition-colors duration-200">
+                        <i class="fab fa-github text-2xl"></i>
+                    </a>
+                    
+                    <!-- LinkedIn -->
+                    <a href="https://linkedin.com/in/joseph-liyon-9619ab250/" target="_blank" rel="noopener noreferrer" 
+                       class="text-gray-300 hover:text-white transition-colors duration-200">
+                        <i class="fab fa-linkedin text-2xl"></i>
+                    </a>
+                </div>
+                
+                <p class="text-xs text-gray-400 mt-4">
+                    Developed by Joseph Liyon 
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Show loading spinner
+        function showLoading() {
+            document.querySelector('.loading-spinner').classList.add('active');
+        }
+
+        // Hide loading spinner
+        function hideLoading() {
+            document.querySelector('.loading-spinner').classList.remove('active');
+        }
+
+        // Add loading state to all links
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle navigation links
+            document.querySelectorAll('a[href^="/"]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    if (this.href !== window.location.href) {
+                        showLoading();
+                    }
+                });
+            });
+
+            // Handle form submissions
+            document.querySelectorAll('form').forEach(form => {
+                form.addEventListener('submit', showLoading);
+            });
+
+            // Handle manual brand update
+            const updateBrandsLink = document.querySelector('a[href="/update-brands"]');
+            if (updateBrandsLink) {
+                updateBrandsLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showLoading();
+                    window.location.href = this.href;
+                });
+            }
+        });
+
+        // Hide loading when page is fully loaded
+        window.addEventListener('load', hideLoading);
+    </script>
+</body>
+</html>
