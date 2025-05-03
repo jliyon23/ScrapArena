@@ -16,14 +16,16 @@ const PORT = process.env.PORT || 3000;
 const isProduction = process.env.NODE_ENV === 'production';
 
 // Connect to MongoDB
-connectDB().catch(err => {
+connectDB().then(() => {
+  console.log('Database connected successfully');
+  
+  // Initialize cron jobs after DB connection is established
+  if (isProduction) {
+    initCronJobs();
+  }
+}).catch(err => {
   console.error('Database connection error:', err);
 });
-
-// Initialize cron jobs after DB connection is established
-if (isProduction && process.env.IS_SERVERLESS !== 'true') {
-  initCronJobs();
-}
 
 // Configure view engine
 app.engine('hbs', exphbs.engine({
@@ -70,14 +72,41 @@ app.get('/update-brands', async (req, res) => {
 
 // Error handling
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+  console.error('Error details:', {
+    message: err.message,
+    stack: err.stack,
+    code: err.code,
+    name: err.name,
+    path: req.path,
+    method: req.method,
+    query: req.query,
+    body: req.body
+  });
+  
   res.status(500).render('error', {
     message: 'Something went wrong!',
-    error: isProduction ? {} : err
+    error: isProduction ? {} : {
+      message: err.message,
+      stack: err.stack
+    }
   });
+});
+
+// Add a catch-all error handler for unhandled promise rejections
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+});
+
+// Add a catch-all error handler for uncaught exceptions
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err);
+  process.exit(1);
 });
 
 // Start server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT} in ${isProduction ? 'production' : 'development'} mode`);
 });
+
+// Export the Express API
+module.exports = app;
