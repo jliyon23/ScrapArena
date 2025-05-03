@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{#if title}}{{title}} - {{/if}}GSMArena Scraper (Educational Use)</title>
+    <title>{{#if title}}{{title}} - {{/if}}ScrapeArena</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/brands.min.css">
@@ -38,19 +38,17 @@
                 <p class="text-sm text-center">Data is scraped from GSMArena.com</p>
                 
                 <div class="flex space-x-6">
-                    <!-- Portfolio -->
+                   
                     <a href="https://josephliyon.tech" target="_blank" rel="noopener noreferrer" 
                        class="text-gray-300 hover:text-white transition-colors duration-200">
                         <i class="fas fa-globe text-2xl"></i>
                     </a>
                     
-                    <!-- GitHub -->
                     <a href="https://github.com/jliyon23" target="_blank" rel="noopener noreferrer" 
                        class="text-gray-300 hover:text-white transition-colors duration-200">
                         <i class="fab fa-github text-2xl"></i>
                     </a>
                     
-                    <!-- LinkedIn -->
                     <a href="https://linkedin.com/in/joseph-liyon-9619ab250/" target="_blank" rel="noopener noreferrer" 
                        class="text-gray-300 hover:text-white transition-colors duration-200">
                         <i class="fab fa-linkedin text-2xl"></i>
@@ -65,19 +63,16 @@
     </footer>
 
     <script>
-        // Show loading spinner
         function showLoading() {
             document.querySelector('.loading-spinner').classList.add('active');
         }
 
-        // Hide loading spinner
         function hideLoading() {
             document.querySelector('.loading-spinner').classList.remove('active');
         }
 
         // Add loading state to all links
         document.addEventListener('DOMContentLoaded', function() {
-            // Handle navigation links
             document.querySelectorAll('a[href^="/"]').forEach(link => {
                 link.addEventListener('click', function(e) {
                     if (this.href !== window.location.href) {
@@ -86,12 +81,10 @@
                 });
             });
 
-            // Handle form submissions
             document.querySelectorAll('form').forEach(form => {
                 form.addEventListener('submit', showLoading);
             });
 
-            // Handle manual brand update
             const updateBrandsLink = document.querySelector('a[href="/update-brands"]');
             if (updateBrandsLink) {
                 updateBrandsLink.addEventListener('click', function(e) {
@@ -102,7 +95,6 @@
             }
         });
 
-        // Hide loading when page is fully loaded
         window.addEventListener('load', hideLoading);
     </script>
 </body>
