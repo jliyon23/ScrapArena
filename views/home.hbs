@@ -1,23 +1,28 @@
-<div class="bg-white rounded-lg shadow-md p-6 mb-8">
-    <h2 class="text-2xl font-bold mb-6 text-gray-800">Mobile Brands</h2>
+<div class="bg-white rounded-xl shadow-lg p-6 mb-8 brand-shadow">
+    <div class="flex items-center border-b border-gray-100 pb-4 mb-8">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+        </svg>
+        <h2 class="text-2xl font-bold text-gray-800">Mobile Brands</h2>
+    </div>
     
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+    <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
         {{#each brands}}
-        <a href="/brand/{{id}}" class="brand-card bg-white hover:bg-gray-50 border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition duration-300 flex flex-col items-center">
-            <div class="w-24 h-24 mb-3 flex items-center justify-center">
+        <a href="/brand/{{id}}" class="brand-card bg-white hover:bg-blue-50 border border-gray-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 flex flex-col items-center">
+            <div class="w-28 h-28 mb-4 flex items-center justify-center">
                 {{#if logo}}
-                    <div class="relative w-20 h-20">
+                    <div class="relative w-24 h-24">
                         <div class="skeleton-loader absolute inset-0 rounded-full"></div>
                         <img 
                             src="{{logo}}" 
                             alt="{{name}} logo" 
                             class="absolute top-0 left-0 w-full h-full object-contain p-2"
-                            onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'w-20 h-20 rounded-full bg-blue-100 flex items-center justify-center\'><span class=\'text-3xl font-bold text-blue-600\'>{{name.[0]}}</span></div>'"
+                            onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'w-24 h-24 rounded-full bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center\'><span class=\'text-3xl font-bold text-blue-600\'>{{name.[0]}}</span></div>'"
                             onload="this.previousElementSibling.classList.add('hidden')"
                         >
                     </div>
                 {{else}}
-                    <div class="w-20 h-20 rounded-full bg-blue-100 flex items-center justify-center">
+                    <div class="w-24 h-24 rounded-full bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center">
                         <span class="text-3xl font-bold text-blue-600">{{name.[0]}}</span>
                     </div>
                 {{/if}}
@@ -29,37 +34,3 @@
         {{/each}}
     </div>
 </div>
-
-<style>
-    /* Skeleton loader animation */
-    .skeleton-loader {
-        background: linear-gradient(
-            90deg,
-            rgba(190, 190, 190, 0.2) 25%,
-            rgba(129, 129, 129, 0.24) 37%,
-            rgba(190, 190, 190, 0.2) 63%
-        );
-        background-size: 400% 100%;
-        animation: skeleton-loading 1.4s ease infinite;
-    }
-
-    @keyframes skeleton-loading {
-        0% {
-            background-position: 100% 50%;
-        }
-        100% {
-            background-position: 0 50%;
-        }
-    }
-</style>
-
-<script>
-    // Show loading spinner when clicking brand cards
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.brand-card').forEach(card => {
-            card.addEventListener('click', function(e) {
-                showLoading();
-            });
-        });
-    });
-</script>

@@ -7,24 +7,75 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/brands.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
-            background-color: #f3f4f6;
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb;
         }
         .container {
             max-width: 1280px;
             margin: 0 auto;
             padding: 0 1rem;
         }
+        .brand-shadow {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+        .loading-spinner {
+            display: none;
+        }
+        .loading-spinner.active {
+            display: flex;
+        }
+        .skeleton-loader {
+            background: linear-gradient(
+                90deg,
+                rgba(226, 232, 240, 0.3) 25%,
+                rgba(203, 213, 225, 0.4) 37%,
+                rgba(226, 232, 240, 0.3) 63%
+            );
+            background-size: 400% 100%;
+            animation: skeleton-loading 1.4s ease infinite;
+        }
+        @keyframes skeleton-loading {
+            0% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0 50%;
+            }
+        }
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
     </style>
 </head>
-<body class="bg-gray-100 min-h-screen flex flex-col">
-    {{> loading}}
+<body class="bg-gray-50 min-h-screen flex flex-col">
+    <div class="loading-spinner fixed inset-0 bg-white bg-opacity-90 flex items-center justify-center z-50">
+        <div class="flex flex-col items-center">
+            <div class="w-16 h-16 relative">
+                <div class="absolute top-0 left-0 w-full h-full border-4 border-blue-100 rounded-full"></div>
+                <div class="absolute top-0 left-0 w-full h-full border-4 border-transparent border-t-blue-600 rounded-full animate-spin"></div>
+            </div>
+            <p class="mt-4 text-blue-600 font-medium">Loading...</p>
+        </div>
+    </div>
     
-    <header class="bg-gradient-to-b from-gray-900 to-gray-800 text-white shadow-md py-5">
+    <header class="bg-gradient-to-r from-blue-900 to-indigo-800 text-white py-5 shadow-lg">
         <div class="container mx-auto px-4 py-6">
-            <h1 class="text-3xl font-bold text-center"><a href="/" class="hover:text-blue-200 ">ScrapeArena</a></h1>
-
+            <h1 class="text-3xl font-bold text-center tracking-tight">
+                <a href="/" class="hover:text-blue-200 transition-colors flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                    </svg>
+                    ScrapeArena
+                </a>
+            </h1>
         </div>
     </header>
     
@@ -32,30 +83,29 @@
         {{{body}}}
     </main>
     
-    <footer class="bg-gradient-to-b from-gray-900 to-gray-800 text-white py-8 mt-8">
+    <footer class="bg-gradient-to-r from-blue-900 to-indigo-800 text-white py-8 mt-8">
         <div class="container mx-auto px-4">
             <div class="flex flex-col items-center space-y-4">
-                <p class="text-sm text-center">Data is scraped from GSMArena.com</p>
+                <p class="text-sm text-center text-blue-100">Data is scraped from GSMArena.com</p>
                 
                 <div class="flex space-x-6">
-                   
                     <a href="https://josephliyon.tech" target="_blank" rel="noopener noreferrer" 
-                       class="text-gray-300 hover:text-white transition-colors duration-200">
+                       class="text-blue-200 hover:text-white transition-colors duration-200">
                         <i class="fas fa-globe text-2xl"></i>
                     </a>
                     
                     <a href="https://github.com/jliyon23" target="_blank" rel="noopener noreferrer" 
-                       class="text-gray-300 hover:text-white transition-colors duration-200">
+                       class="text-blue-200 hover:text-white transition-colors duration-200">
                         <i class="fab fa-github text-2xl"></i>
                     </a>
                     
                     <a href="https://linkedin.com/in/joseph-liyon-9619ab250/" target="_blank" rel="noopener noreferrer" 
-                       class="text-gray-300 hover:text-white transition-colors duration-200">
+                       class="text-blue-200 hover:text-white transition-colors duration-200">
                         <i class="fab fa-linkedin text-2xl"></i>
                     </a>
                 </div>
                 
-                <p class="text-xs text-gray-400 mt-4">
+                <p class="text-xs text-blue-200 mt-4">
                     Developed by Joseph Liyon 
                 </p>
             </div>
@@ -73,6 +123,9 @@
 
         // Add loading state to all links
         document.addEventListener('DOMContentLoaded', function() {
+            // Hide loading on page load
+            hideLoading();
+            
             document.querySelectorAll('a[href^="/"]').forEach(link => {
                 link.addEventListener('click', function(e) {
                     if (this.href !== window.location.href) {
@@ -95,6 +148,14 @@
             }
         });
 
+        // Fix for back navigation
+        window.addEventListener('pageshow', function(event) {
+            // When navigating back using browser history
+            if (event.persisted) {
+                hideLoading();
+            }
+        });
+        
         window.addEventListener('load', hideLoading);
     </script>
 </body>
